@@ -53,6 +53,7 @@ class ListFragment : Fragment() {
     }
 
     private fun setUI() {
+        progressBar.visibility = View.VISIBLE
         val layoutManager = LinearLayoutManager(requireContext())
         list.layoutManager = layoutManager
         adapter = ListAdapter(arrayListOf(), listener)
@@ -95,11 +96,14 @@ class ListFragment : Fragment() {
                         adapter.addData(data)
                         adapter.notifyDataSetChanged()
                     }
+                    progressBar.visibility = View.GONE
                 }
                 Status.ERROR -> {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    progressBar.visibility = View.GONE
                 }
                 Status.LOADING -> {
+                    progressBar.visibility = View.VISIBLE
                 }
             }
         })
