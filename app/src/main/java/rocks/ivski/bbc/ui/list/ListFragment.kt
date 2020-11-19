@@ -1,7 +1,7 @@
 package rocks.ivski.bbc.ui.list
 
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +21,17 @@ class ListFragment : Fragment() {
 
     private val viewModel: ListVM by viewModel()
     private lateinit var adapter: ListAdapter
+    private lateinit var listener: SelectionListener
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        if (context is SelectionListener) {
+            listener = context
+        } else {
+            throw Exception("Parent must implement SelectionListener")
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,7 +54,7 @@ class ListFragment : Fragment() {
     private fun setUI() {
         val layoutManager = LinearLayoutManager(requireContext())
         list.layoutManager = layoutManager
-        adapter = ListAdapter(arrayListOf())
+        adapter = ListAdapter(arrayListOf(), listener)
         list.addItemDecoration(
             DividerItemDecoration(context, layoutManager.orientation)
         )

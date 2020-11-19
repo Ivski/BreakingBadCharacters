@@ -14,7 +14,8 @@ import rocks.ivski.bbc.R
 import rocks.ivski.bbc.data.models.Character
 
 class ListAdapter(
-    private val items: ArrayList<Character>
+    private val items: ArrayList<Character>,
+    private val listener: SelectionListener
 ) :
     RecyclerView.Adapter<ListAdapter.CharacterHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterHolder {
@@ -29,6 +30,7 @@ class ListAdapter(
             .apply(RequestOptions.bitmapTransform(RoundedCorners(8)))
             .into(holder.image)
         holder.name.text = items[position].name
+        holder.itemView.setOnClickListener { listener.onCharacterSelected(items[position]) }
     }
 
     override fun getItemCount(): Int {

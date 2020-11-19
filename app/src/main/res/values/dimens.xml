@@ -8,4 +8,5 @@
     <dimen name="fontLarge">18sp</dimen>
 
     <dimen name="imageSize">72dp</dimen>
+    <dimen name="imageSizeLarge">196dp</dimen>
 </resources>
