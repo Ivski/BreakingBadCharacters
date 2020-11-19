@@ -13,6 +13,7 @@ import java.util.*
 class ListVM(private val repo: CharacterRepo, private val networkUtil: NetworkUtil) : ViewModel() {
 
     private val data = MutableLiveData<ApiResult<List<Character>>>()
+    val filteredResults = MutableLiveData<List<Character>>()
 
     fun getCharacters(): MutableLiveData<ApiResult<List<Character>>> {
         if (networkUtil.isNetworkConnected()) {
@@ -38,14 +39,14 @@ class ListVM(private val repo: CharacterRepo, private val networkUtil: NetworkUt
     }
 
     fun filterCharacters(keyword: String): List<Character> {
-        val filtered = repo.getData().filter {
+        val result = repo.getData().filter {
             it.name.toLowerCase(Locale.ROOT).startsWith(
                 keyword.toLowerCase(
                     Locale.ROOT
                 )
             )
         }
-        data.postValue(ApiResult.success(filtered))
-        return filtered
+        filteredResults.postValue(result)
+        return result
     }
 }

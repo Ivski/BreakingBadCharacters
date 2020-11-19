@@ -16,10 +16,10 @@ import rocks.ivski.bbc.utils.NetworkUtil
 val appModule = module {
     single { provideOkHttpClient() }
     single { provideRetrofit(get(), BASE_URL) }
-    single { provideApiService(get()) }
+    single { provideApi(get()) }
     single { provideNetworkUtil(androidContext()) }
 
-    single<ApiService> {
+    single {
         return@single ApiService(get())
     }
 }
