@@ -7,6 +7,7 @@ import kotlinx.coroutines.launch
 import rocks.ivski.bbc.data.models.Character
 import rocks.ivski.bbc.data.repo.CharacterRepo
 import rocks.ivski.bbc.utils.ApiResult
+import rocks.ivski.bbc.utils.NETWORK_ERROR
 import rocks.ivski.bbc.utils.NetworkUtil
 import java.util.*
 
@@ -30,7 +31,7 @@ class ListVM(private val repo: CharacterRepo, private val networkUtil: NetworkUt
         } else {
             data.postValue(
                 ApiResult.error(
-                    "Network Error. Please Check Your Internet Connection",
+                    NETWORK_ERROR,
                     null
                 )
             )

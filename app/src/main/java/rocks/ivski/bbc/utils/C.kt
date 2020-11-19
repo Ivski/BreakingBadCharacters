@@ -4,3 +4,5 @@ const val NA = "N/A"
 
 const val BASE_URL = "https://breakingbadapi.com/api/"
 const val ENDPOINT_CHARACTERS = "characters"
+
+const val NETWORK_ERROR = "Network Error. Please Check Your Internet Connection"
