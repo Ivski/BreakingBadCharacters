@@ -38,6 +38,7 @@ class SeasonAdapter(private val items: ArrayList<Int>, private val listener: Sea
     }
 
     fun addData(list: List<Int>) {
+        items.clear()
         items.addAll(list)
     }
 
