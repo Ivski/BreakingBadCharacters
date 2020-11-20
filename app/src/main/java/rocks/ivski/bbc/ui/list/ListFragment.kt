@@ -2,7 +2,6 @@ package rocks.ivski.bbc.ui.list
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +27,6 @@ class ListFragment : Fragment() {
     private lateinit var listener: SelectionListener
     private val seasonListener = object : SeasonFilterListener {
         override fun onFiltersUpdated(selected: List<Int>) {
-            Log.e("aaa", "selection changed: $selected")
             viewModel.filterByAppearance(selected)
         }
 
