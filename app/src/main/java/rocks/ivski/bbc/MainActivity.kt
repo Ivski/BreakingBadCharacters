@@ -14,15 +14,18 @@ class MainActivity : AppCompatActivity(), SelectionListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, ListFragment())
-            .commit()
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, ListFragment())
+                .commit()
+        }
+
     }
 
     override fun onCharacterSelected(character: Character) {
         val args = Bundle().apply { putSerializable(ARG_CHARACTER, character) }
         val fragment = DetailsFragment().apply { arguments = args }
-        supportFragmentManager.beginTransaction().add(R.id.fragmentContainer, fragment)
+        supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment)
             .addToBackStack(
                 TAG_DETAILS
             ).commit()

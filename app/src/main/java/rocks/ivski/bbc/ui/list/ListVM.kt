@@ -15,6 +15,7 @@ class ListVM(private val repo: CharacterRepo, private val networkUtil: NetworkUt
 
     private val data = MutableLiveData<ApiResult<List<Character>>>()
     val filteredResults = MutableLiveData<List<Character>>()
+    val filterSelection = MutableLiveData<List<Int>>()
 
     fun getCharacters(): MutableLiveData<ApiResult<List<Character>>> {
         if (networkUtil.isNetworkConnected()) {
@@ -56,6 +57,7 @@ class ListVM(private val repo: CharacterRepo, private val networkUtil: NetworkUt
             !it.appearance.isNullOrEmpty() && it.appearance.containsAll(filter)
         }
         filteredResults.postValue(result)
+        filterSelection.postValue(filter)
         return result
     }
 

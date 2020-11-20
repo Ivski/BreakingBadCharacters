@@ -29,7 +29,6 @@ class ListFragment : Fragment() {
         override fun onFiltersUpdated(selected: List<Int>) {
             viewModel.filterByAppearance(selected)
         }
-
     }
 
     override fun onAttach(context: Context) {
@@ -57,7 +56,6 @@ class ListFragment : Fragment() {
 
         setUI()
         setObservers()
-
     }
 
     private fun setUI() {
@@ -128,6 +126,11 @@ class ListFragment : Fragment() {
             adapter.clearData()
             adapter.addData(it)
             adapter.notifyDataSetChanged()
+        })
+
+        viewModel.filterSelection.observe(viewLifecycleOwner, {
+            seasonAdapter.updateSelected(it)
+            seasonAdapter.notifyDataSetChanged()
         })
     }
 }

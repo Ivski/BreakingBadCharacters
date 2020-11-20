@@ -6,6 +6,7 @@
 
     <dimen name="fontMedium">16sp</dimen>
     <dimen name="fontLarge">18sp</dimen>
+    <dimen name="fontExtraLarge">22sp</dimen>
 
     <dimen name="imageSize">72dp</dimen>
     <dimen name="imageSizeLarge">196dp</dimen>
