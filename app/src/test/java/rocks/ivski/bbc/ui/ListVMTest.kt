@@ -9,6 +9,7 @@ import org.mockito.Mockito.*
 import retrofit2.Response
 import rocks.ivski.bbc.data.models.Character
 import rocks.ivski.bbc.data.repo.CharacterRepo
+import rocks.ivski.bbc.ui.list.ListVM
 import rocks.ivski.bbc.utils.NetworkUtil
 
 class ListVMTest {
@@ -17,9 +18,9 @@ class ListVMTest {
     private var util = mock(NetworkUtil::class.java)
     private lateinit var viewModel: ListVM
 
-    private val fakeCharacter1 = Character(name = "Mike")
-    private val fakeCharacter2 = Character(name = "Bob")
-    private val fakeCharacter3 = Character(name = "Mel")
+    private val fakeCharacter1 = Character(name = "Mike", appearance = listOf(1))
+    private val fakeCharacter2 = Character(name = "Bob", appearance = listOf(1, 2))
+    private val fakeCharacter3 = Character(name = "Mel", appearance = listOf(3))
 
     @Test
     fun `when no network available no api call is made`() {
@@ -84,6 +85,58 @@ class ListVMTest {
         `when`(repo.getData()).thenReturn(listOf(fakeCharacter2))
         viewModel = ListVM(repo, util)
         assert(viewModel.filterCharacters("b").size == 1)
+    }
+
+    @Test
+    fun `when filter by season show only results appearing in all selected seasons`() {
+        `when`(repo.getData()).thenReturn(
+            listOf(
+                fakeCharacter1,
+                fakeCharacter2,
+                fakeCharacter3
+            )
+        )
+        viewModel = ListVM(repo, util)
+        assert(viewModel.filterByAppearance(listOf(1, 2)).size == 1)
+    }
+
+    @Test
+    fun `when filter by season has no matches no results are displayed`() {
+        `when`(repo.getData()).thenReturn(
+            listOf(
+                fakeCharacter1,
+                fakeCharacter2,
+                fakeCharacter3
+            )
+        )
+        viewModel = ListVM(repo, util)
+        assert(viewModel.filterByAppearance(listOf(5)).isEmpty())
+    }
+
+    @Test
+    fun `when filter by season has more than one match return all matches`() {
+        `when`(repo.getData()).thenReturn(
+            listOf(
+                fakeCharacter1,
+                fakeCharacter2,
+                fakeCharacter3
+            )
+        )
+        viewModel = ListVM(repo, util)
+        assert(viewModel.filterByAppearance(listOf(1)).size == 2)
+    }
+
+    @Test
+    fun `get seasons returns repo data`() {
+        `when`(repo.getData()).thenReturn(
+            listOf(
+                fakeCharacter1,
+                fakeCharacter2,
+                fakeCharacter3
+            )
+        )
+        viewModel = ListVM(repo, util)
+        assertTrue(viewModel.getSeasons() == repo.getSeasons().toList())
     }
 
 }

@@ -2,6 +2,7 @@ package rocks.ivski.bbc.ui.list
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,18 +12,27 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_list.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import rocks.ivski.bbc.R
-import rocks.ivski.bbc.ui.ListVM
 import rocks.ivski.bbc.utils.Status
 
 class ListFragment : Fragment() {
 
     private val viewModel: ListVM by viewModel()
+
     private lateinit var adapter: ListAdapter
+    private lateinit var seasonAdapter: SeasonAdapter
     private lateinit var listener: SelectionListener
+    private val seasonListener = object : SeasonFilterListener {
+        override fun onFiltersUpdated(selected: List<Int>) {
+            Log.e("aaa", "selection changed: $selected")
+            viewModel.filterByAppearance(selected)
+        }
+
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -54,6 +64,7 @@ class ListFragment : Fragment() {
 
     private fun setUI() {
         progressBar.visibility = View.VISIBLE
+
         val layoutManager = LinearLayoutManager(requireContext())
         list.layoutManager = layoutManager
         adapter = ListAdapter(arrayListOf(), listener)
@@ -61,6 +72,11 @@ class ListFragment : Fragment() {
             DividerItemDecoration(context, layoutManager.orientation)
         )
         list.adapter = adapter
+
+        val seasonLayoutManager = GridLayoutManager(requireContext(), 5)
+        seasons.layoutManager = seasonLayoutManager
+        seasonAdapter = SeasonAdapter(arrayListOf(), seasonListener)
+        seasons.adapter = seasonAdapter
 
         search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -95,6 +111,8 @@ class ListFragment : Fragment() {
                     it.data?.let { data ->
                         adapter.addData(data)
                         adapter.notifyDataSetChanged()
+                        seasonAdapter.addData(viewModel.getSeasons())
+                        seasonAdapter.notifyDataSetChanged()
                     }
                     progressBar.visibility = View.GONE
                 }
@@ -114,5 +132,4 @@ class ListFragment : Fragment() {
             adapter.notifyDataSetChanged()
         })
     }
-
 }

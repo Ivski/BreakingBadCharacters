@@ -9,14 +9,14 @@ data class Character(
     val charId: Int? = null,
     val name: String = NA,
     val birthday: String = NA,
-    val occupation: List<String> = emptyList(),
+    val occupation: List<String>? = null,
     @SerializedName("img")
     val imageUrl: String? = null,
     val status: String = NA,
     val nickname: String = NA,
-    val appearance: List<Int> = emptyList(),
+    val appearance: List<Int>? = null,
     val portrayed: String = NA,
     val category: String = NA,
     @SerializedName("better_call_saul_appearance")
-    val betterCallSaulAppearance: List<Int> = emptyList()
+    val betterCallSaulAppearance: List<Int>? = null
 ): Serializable

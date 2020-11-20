@@ -43,9 +43,9 @@ class DetailsFragment : Fragment() {
         name.text = character.name
         var occupations = ""
         if (!character.occupation.isNullOrEmpty()) {
-            for (s in character.occupation) {
+            for (s in character.occupation!!) {
                 occupations += s
-                if (character.occupation.indexOf(s) != character.occupation!!.size - 1) {
+                if (character.occupation!!.indexOf(s) != character.occupation!!.size - 1) {
                     occupations += ",\n"
                 }
             }
@@ -57,9 +57,9 @@ class DetailsFragment : Fragment() {
         nickname.text = character.nickname
         var appearances = ""
         if (!character.appearance.isNullOrEmpty()) {
-            for (i in character.appearance) {
+            for (i in character.appearance!!) {
                 appearances += i
-                if (character.appearance.indexOf(i) != character.appearance.size - 1) {
+                if (character.appearance!!.indexOf(i) != character.appearance!!.size - 1) {
                     appearances += ", "
                 }
             }

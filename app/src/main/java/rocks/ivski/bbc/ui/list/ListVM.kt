@@ -1,4 +1,4 @@
-package rocks.ivski.bbc.ui
+package rocks.ivski.bbc.ui.list
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -49,5 +49,17 @@ class ListVM(private val repo: CharacterRepo, private val networkUtil: NetworkUt
         }
         filteredResults.postValue(result)
         return result
+    }
+
+    fun filterByAppearance(filter: List<Int>): List<Character> {
+        val result = repo.getData().filter {
+            !it.appearance.isNullOrEmpty() && it.appearance.containsAll(filter)
+        }
+        filteredResults.postValue(result)
+        return result
+    }
+
+    fun getSeasons(): List<Int> {
+        return repo.getSeasons().toList()
     }
 }

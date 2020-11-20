@@ -8,12 +8,20 @@ import java.net.HttpURLConnection
 class CharacterRepo(private val api: ApiService) {
 
     private var data: List<Character> = emptyList()
+    private val seasons = mutableSetOf<Int>()
 
     suspend fun getCharacters(): Response<List<Character>> {
         return if (data.isEmpty()) {
             val result = api.getCharacters()
             if (result.isSuccessful) {
                 data = result.body()!!
+                for (character in data) {
+                    if (!character.appearance.isNullOrEmpty()) {
+                        for (s in character.appearance) {
+                            seasons.add(s)
+                        }
+                    }
+                }
             }
             return result
         } else {
@@ -23,5 +31,9 @@ class CharacterRepo(private val api: ApiService) {
 
     fun getData(): List<Character> {
         return data
+    }
+
+    fun getSeasons(): Set<Int> {
+        return seasons
     }
 }

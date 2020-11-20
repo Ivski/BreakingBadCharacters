@@ -38,4 +38,34 @@ class CharacterRepoTest {
         }
     }
 
+    @Test
+    fun `verify that seasons are populated`() {
+        runBlocking {
+            `when`(service.getCharacters()).thenReturn(
+                Response.success(
+                    200,
+                    listOf(Character(appearance = listOf(1, 2, 3)))
+                )
+            )
+            repo = CharacterRepo(service)
+            repo.getCharacters()
+            assertTrue(repo.getSeasons().isNotEmpty())
+        }
+    }
+
+    @Test
+    fun `verify no seasons are populated when appearance is null`() {
+        runBlocking {
+            `when`(service.getCharacters()).thenReturn(
+                Response.success(
+                    200,
+                    listOf(Character(appearance = null))
+                )
+            )
+            repo = CharacterRepo(service)
+            repo.getCharacters()
+            assertTrue(repo.getSeasons().isEmpty())
+        }
+    }
+
 }
